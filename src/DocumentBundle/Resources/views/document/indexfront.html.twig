@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+
+    <h4 class="sub-title">Documents List</h4>
+
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Id   </th>
+                <th>Nom document</th>
+                <th>Etat document</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for document in documents %}
+            <tr>
+                <td><a href="{{ path('document_show', { 'id': document.id }) }}">{{ document.id }}</a></td>
+                <td>{{ document.nomdocument }}</td>
+                <td>{{ document.etatdocument }}</td>
+                <td>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+    <div id="styleSelector">
+
+{% endblock %}

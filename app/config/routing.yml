@@ -1,0 +1,23 @@
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+document:
+    resource: "@DocumentBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+delete:
+    path:     /delete/{id}
+    defaults: { _controller: DocumentBundle:Categorie:delete }
+
+deletedoc:
+    path:     /deletedoc/{id}
+    defaults: { _controller: DocumentBundle:Document:deletedoc }

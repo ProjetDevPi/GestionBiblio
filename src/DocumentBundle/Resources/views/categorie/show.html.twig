@@ -1,0 +1,75 @@
+{% extends 'back.html.twig' %}
+
+{% block container %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+
+        <div class="main-body">
+            <div class="page-wrapper">
+
+                <div class="page-header">
+                    <div class="row align-items-end">
+                        <div class="col-lg-8">
+                            <div class="page-header-title">
+                                <div class="d-inline">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="page-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div class="card">
+                                <div class="card-header">
+
+                                </div>
+                                <div class="card-block">
+
+                                <h1>Category</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ categorie.id }}</td>
+            </tr>
+            <tr>
+                <th>Nomcategorie</th>
+                <td>{{ categorie.nomcategorie }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('categorie_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('categorie_edit', { 'id': categorie.id }) }}">Edit</a>
+        </li>
+      <li>
+          <a href="{{ path('delete', { 'id': categorie.id }) }}">delete</a>
+      </li>
+    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div id="styleSelector">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                                    {% endblock %}

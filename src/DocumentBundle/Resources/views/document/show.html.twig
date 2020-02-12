@@ -1,0 +1,81 @@
+{% extends 'back.html.twig' %}
+
+{% block container %}
+
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+
+            <div class="main-body">
+                <div class="page-wrapper">
+
+                    <div class="page-header">
+                        <div class="row align-items-end">
+                            <div class="col-lg-8">
+                                <div class="page-header-title">
+                                    <div class="d-inline">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="page-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <div class="card">
+                                    <div class="card-header">
+
+                                    </div>
+                                    <div class="card-block">
+                                        <h4 class="sub-title">Document</h4>
+
+
+                                        <table class="table table-striped table-hover table-bordered nowrap dataTable">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ document.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom document</th>
+                <td>{{ document.nomdocument }}</td>
+            </tr>
+            <tr>
+                <th>Etat document</th>
+                <td>{{ document.etatdocument }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('document_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('document_edit', { 'id': document.id }) }}">Edit</a>
+        </li>
+        <li>
+            <a href="{{ path('deletedoc', { 'id': document.id }) }}">delete</a>
+        </li>
+    </ul>
+
+
+    </div>
+    </div>
+    </div>
+
+
+
+    <div id="styleSelector">
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}

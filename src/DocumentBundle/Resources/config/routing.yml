@@ -1,0 +1,11 @@
+emprunter:
+    path:     /emprunterdocument
+    defaults: { _controller: DocumentBundle:Document:emprunter }
+
+statistique:
+    path:     statistiqueAction
+    defaults: { _controller: DocumentBundle:Document:statistique }
+
+deletedoc:
+    path:     /deletedoc/{id}
+    defaults: { _controller: DocumentBundle:Document:delete }

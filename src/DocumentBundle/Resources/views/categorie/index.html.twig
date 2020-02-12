@@ -1,0 +1,86 @@
+{% extends 'back.html.twig' %}
+
+
+{% block container %}
+
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+
+            <div class="main-body">
+                <div class="page-wrapper">
+
+                    <div class="page-header">
+                        <div class="row align-items-end">
+                            <div class="col-lg-8">
+                                <div class="page-header-title">
+                                    <div class="d-inline">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="page-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <div class="card">
+                                    <div class="card-header">
+
+                                    </div>
+                                    <div class="card-block">
+
+                                    <h1>Categories list</h1>
+
+    <table class="table table-striped table-hover table-bordered nowrap dataTable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nomcategorie</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td><a href="{{ path('categorie_show', { 'id': categorie.id }) }}">{{ categorie.id }}</a></td>
+                <td>{{ categorie.nomcategorie }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('categorie_show', { 'id': categorie.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('categorie_edit', { 'id': categorie.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('categorie_new') }}">Create a new categorie</a>
+        </li>
+    </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div id="styleSelector">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
