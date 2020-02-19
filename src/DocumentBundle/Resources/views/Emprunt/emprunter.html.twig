@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block container %}
+
+
+
+    <h4 class="sub-title">liste d'emprunts</h4>
+    <table class="table table-striped table-hover table-bordered nowrap dataTable">
+        <thead>
+
+        <tr>
+            <th>Nom Document</th>
+            <th>Date Emprunt</th>
+            <th>Date Retour</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+        {% for emp in emprunts %}
+
+            <tr>
+                <td> {{ emp.iddocument.nomdocument }}</td>
+                <td>{{ emp.dateemprunt | date("d/m/Y") }} </td>
+                <td>{{ emp.dateretour | date("d/m/Y") }} </td>
+                 </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+    <div id="styleSelector">
+
+{% endblock  %}

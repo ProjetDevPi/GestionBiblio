@@ -1,0 +1,85 @@
+{% extends 'back.html.twig' %}
+{% block container %}
+
+    <div class="pcoded-content">
+    <div class="pcoded-inner-content">
+
+    <div class="main-body">
+    <div class="page-wrapper">
+
+    <div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <div class="d-inline">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+        <form method="get">
+            <input hidden value="TELECHARGER_PDF" name="TELECHARGER_PDF">
+            <input value="TELECHARGER_PDF" type="submit" class="add-to-cart btn btn-default" >
+        </form>
+
+
+    <div class="page-body">
+    <div class="row">
+    <div class="col-sm-12">
+
+    <div class="card">
+    <div class="card-header">
+
+    </div>
+    <div class="card-block">
+    <h4 class="sub-title">Liste d'emprunts</h4>
+
+
+    <table class="table table-striped table-hover table-bordered nowrap dataTable">
+
+
+
+
+    <thead>
+
+        <tr>
+            <th>Nom Document</th>
+            <th>Date Emprunt</th>
+            <th>Date Retour</th>
+            <th>User </th>
+            <th>Supprimer</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+        {% for emp in emprunts %}
+            <tr>
+                <td> {{ emp.iddocument.nomdocument }}</td>
+                <td>{{ emp.dateemprunt | date("d/m/Y") }} </td>
+                <td>{{ emp.dateretour | date("d/m/Y") }} </td>
+                <td>{{ emp.iduser }}</td>
+                <td> <a href="{{ path('del1', { 'id': emp.id }) }}" class="btn btn-out btn-danger btn-square">delete</a> </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+        <div id="styleSelector">
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock  %}
