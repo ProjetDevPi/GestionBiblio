@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <!-- Begin page name -->
+    <section class="page-name color-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-name-content">
+                        <h1>Emprunter {{ document.nomdocument }}</h1>
+                        <ul class="bread-crumbs">
+                            <li><a href="{{ path('homepage') }}">Home</a></li>
+                            <li><p>Emprunter {{ document.nomdocument }}</p></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End page name -->
+    <!-- Begin enroll content -->
+    <main class="enroll-content">
+        <!-- Begin apply section -->
+        <section class="apply-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="apply-form-wrap">
+                            <div class="row text-center">
+                                <h2>Emprunter</h2>
+                            </div>
+                            {{ form_start(form,{attr:{'id':'myForm'}}) }}
+                                <div class="inner-apply-form">
+                                    <div class="row">
+
+
+                                    <div class="col-md-6 input-wrap">
+                                        <label for="apply-name">Date d'emprunt</label>
+                                        {{ form_widget(form.dateemprunt) }}
+                                    </div>
+                                    <div class="col-md-6 input-wrap">
+                                        <label for="apply-email">Date de retour</label>
+                                        {{ form_widget(form.dateretour) }}
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <button onclick="emprunter(event)" type="submit" class="color-4">Emprunter</button>
+                                </div>
+
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End apply section -->
+
+{% endblock %}
+
+        {% block javascripts %}
+        <script>
+               function emprunter(event) {
+                   event.preventDefault();
+
+                   var Datenow=new Date();
+                   console.log(Datenow.getDate());
+                    console.log(Datenow.getMonth()*30);
+                    console.log(Datenow.getFullYear()*365);
+                    console.log(Datenow.getDay()+Datenow.getMonth()*30+Datenow.getFullYear()*365);
+                   var DateEmpruntDay=parseInt($('#documentbundle_emprunt_dateemprunt_day').val(),10);
+                   var DateEmpruntMonth=parseInt($('#documentbundle_emprunt_dateemprunt_month').val(),10);
+                   var DateEmpruntYear=parseInt($('#documentbundle_emprunt_dateemprunt_year').val(),10);
+                   var DateRetourDay=parseInt($('#documentbundle_emprunt_dateretour_day').val(),10);
+                   var DateRetourMonth=parseInt($('#documentbundle_emprunt_dateretour_month').val(),10);
+                   var DateRetourYear=parseInt($('#documentbundle_emprunt_dateretour_year').val(),10);
+                   console.log(DateEmpruntDay);
+                   console.log(DateEmpruntMonth*30);
+                   console.log(DateEmpruntYear*365);
+                   console.log(DateEmpruntDay+DateEmpruntMonth*30+DateEmpruntYear*365);
+
+                   swal({
+  title: "Are you sure?",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    if(Datenow.getDate()+Datenow.getMonth()*30+Datenow.getFullYear()*365<=DateEmpruntDay+DateEmpruntMonth*30+DateEmpruntYear*365)
+        {
+            if(DateRetourDay+DateRetourMonth*30+DateRetourYear*365>DateEmpruntDay+DateEmpruntMonth*30+DateEmpruntYear*365)
+                {
+                    swal("Thank you", {
+                        icon: "success",
+                    });
+                    document.forms["myForm"].submit();
+                }
+            else
+                {
+                    swal("Date de retour doit être supérieure ou égale à la date d'emprunt", {
+                      icon: "warning",
+                });
+                }
+
+        }
+    else {
+        swal("Date d'emprunt doit être supérieure ou égale à la date actuelle", {
+                      icon: "warning",
+                });
+    }
+
+
+
+  } else {
+    swal("See you next time!");
+
+  }
+});
+
+
+               }
+        </script>
+
+        {% endblock %}

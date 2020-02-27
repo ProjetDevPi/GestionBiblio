@@ -5,9 +5,11 @@ namespace DocumentBundle\Controller;
 use DocumentBundle\Entity\Document;
 use DocumentBundle\Entity\Emprunt;
 use DocumentBundle\Entity\User;
+use DocumentBundle\Form\EmpruntType;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class EmpruntController extends Controller
@@ -16,40 +18,65 @@ class EmpruntController extends Controller
     /**
      * @Route("/Emprunter/{id}", name="emprunter")
      */
-    public function EmprunterAction($id)
+    public function EmprunterAction(Document $document, Request $request)
     {
 
-        $user = $this->getUser();
-        $u = $this->getDoctrine()->getRepository(User::class)->find($user);
-        $com = new Emprunt();
-        $document = $this->getDoctrine()->getRepository(Document::class)->find($id);
-        $com->setIddocument($document);
-        $com->setIdUser($u);
+        $emprunt= new Emprunt();
+        $form= $this->createForm(EmpruntType::class,$emprunt);
+        $em=$this->getDoctrine()->getManager();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $document = $this->getDoctrine()->getRepository(Document::class)->find($document);
+            $user=$this->getUser();
+            $emprunt->setIdUser($user);
+            $emprunt->setIddocument($document);
+            $document->setEmprunte(1);
+            $em->persist($emprunt);
+            $em->flush();
+            $dateemp=$emprunt->getDateemprunt();
+            $dateret=$emprunt->getDateretour();
+            $result = $dateemp->format('Y-m-d');
+            $result1 = $dateret->format('Y-m-d');
+            $basic  = new \Nexmo\Client\Credentials\Basic('1a39295c', '7Iul24U8rmw7ZN9i');
+            $client = new \Nexmo\Client($basic);
+            $message = $client->message()->send([
+                'to' => '21692048760',
+                'from' => 'kid o',
+                'text' => 'votre documenta été emprunté avec succés'
+            ]);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($com);
+            return $this->redirectToRoute('showemprunt');
+        }
 
-        $document=$com->getIddocument()->getNomdocument();
-        $dateemp=$com->getDateemprunt();
-        $result = $dateemp->format('Y-m-d');
-        $dateret=$com->getDateretour();
-        $result1 = $dateret->format('Y-m-d');
-        $to=$this->getUser()->getTelephone();
-        $tk=$this->getDoctrine()->getRepository(emprunt::class )->
-        changeEmprunt($id);
-        $basic  = new \Nexmo\Client\Credentials\Basic('1a39295c', '7Iul24U8rmw7ZN9i');
-        $client = new \Nexmo\Client($basic);
-        $message = $client->message()->send([
-            'to' => '21692048760',
-            'from' => 'kid o',
-            'text' => 'votre document'.$document.'a été emprunté le '.' '.$result.'avec succés, la date de retour est le'.' '.$result1
-        ]);
-
-        $em->flush();
-
-        return $this->redirectToRoute('showemprunt');
+        return $this->render('@Document/document/page_emprunt.html.twig',array(
+            'form'=>$form->createView(),
+            'document'=> $document
+        ));
 
     }
+
+    /**
+     * @Route("/prolongation/{id}", name="prolongation")
+     */
+    public function prolongation(Request $request, Emprunt $emprunt)
+    {
+        $form= $this->createForm(EmpruntType::class,$emprunt);
+        $form->remove('dateemprunt');
+        $em=$this->getDoctrine()->getManager();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em->flush();
+            return $this->redirectToRoute('showemprunt');
+        }
+
+        return $this->render('@Document/Emprunt/prolongation.html.twig',array(
+            'form'=>$form->createView(),
+            'document'=> $emprunt->getIddocument()
+        ));
+    }
+
     /**
      * @Route("/showemprunt", name="showemprunt")
      */
@@ -72,7 +99,6 @@ class EmpruntController extends Controller
             return $this->redirectToRoute('emprunter');
         }
     }
-
 
     /**
      * @Route("/showempruntback", name="showempruntback")
@@ -291,17 +317,22 @@ footer {
         return $this->render('@Document/Emprunt/showempruntback.html.twig', array('emprunts' => $emprunts));
     }
 
+    /**
+     * @Route("/del1/{id}", name="del1")
+     */
     public function del1Action($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $emprunt = $em->getRepository(emprunt::class)->find($id);
 
+
+        $emprunt = $em->getRepository(emprunt::class)->find($id);
+        $doc=$this->getDoctrine()->getRepository(Document::class )->findOneBy(array('id'=>$emprunt->getiddocument()));
+        $doc->setEmprunte(0);
         $em->remove($emprunt);
 
-        $this->getDoctrine()->getRepository(emprunt::class )->
-        forgetEmprunt($id);
-print $id;
+$em->persist($doc);
+
         $em->flush();
         return $this->redirectToRoute('showempruntback');
     }
