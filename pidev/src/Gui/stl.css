@@ -1,0 +1,6 @@
+.btns{
+  background: #3D38CE;
+background: -moz-linear-gradient(left, #3D38CE 0%, #1C6EA4 0%, #C538C1 100%);
+background: -webkit-linear-gradient(left, #3D38CE 0%, #1C6EA4 0%, #C538C1 100%);
+background: linear-gradient(to right, #3D38CE 0%, #1C6EA4 0%, #C538C1 100%);
+}
